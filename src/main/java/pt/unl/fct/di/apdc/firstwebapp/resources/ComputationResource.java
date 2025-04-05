@@ -32,15 +32,19 @@ public class ComputationResource {
 	public ComputationResource() {} //nothing to be done here @GET
 
 	@GET
-	@Path("/hello")
+	@Path("/guide")
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response hello() throws IOException{
+		LOG.fine("A guide describing the available operations to the user.");
+		return Response.ok("Hello User! Here is a quick guide to all the operations you can use with my website:").build();
+		/**
 		try {
 			throw new IOException("UPS");
 		} catch (Exception e) {
 			LOG.log(Level.SEVERE, "Exception on Method /hello", e);
 			return Response.temporaryRedirect(URI.create("/error/500.html")).build();
 		}
+		 */
 	}
 	
 	@GET
