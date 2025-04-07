@@ -35,7 +35,7 @@ public class LoginResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response doLogin(LoginData data) {
 		LOG.fine("Login attempt by user: " + data.username);
-
+		// return Response.temporaryRedirect(URI.create("userPage.html")).build();
 		return Response.ok().build();
 	}
 

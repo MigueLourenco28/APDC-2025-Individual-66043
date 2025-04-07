@@ -2,25 +2,54 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
     <head>
         <title>APDC-2025-Individual-66043</title>
+        <style>
+            h1 {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                height: 200px;
+            }
+            .content {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                height: 200px;
+            }
+            .footer {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                height: 200px;
+            }
+        </style>
     </head>
     <body>
-    <h1>Welcome to my website!</h1>
-        <table>
-            <tr>
-                <td colspan="2" style="font-weight:bold;">Available Operations:</td>
-            </tr>
-            <tr>
-                <td><a href='/rest/utils/register'>Register New Account</a></td><td>(Insert new user info)</td>
-            </tr>
-            <tr>
-                <td>or</td>
-            </tr>
-            <tr>
-                <td><a href='userPage.html'>Log in</a></td><td>(Insert user info)</td>
-            </tr>
-        </table>
+        <h1>
+            Welcome to my website!
+        </h1>
+        <div class = "content">
+            <table>
+                <tr>
+                    <td colspan="2" style="font-weight:bold;">Available Operations:</td>
+                </tr>
+                <tr>
+                    <td><a href='/rest/utils/register'>Register New Account</a></td><td>(Insert new user info)</td>
+                </tr>
+                <tr>
+                    <td>or</td>
+                </tr>
+                <tr>
+                    <td><a href='rest/login'>Log in</a></td><td>(Insert user info)</td>
+                </tr>
+            </table>
+        </div>
     </body>
     <footer>
-        Thank you for visiting my website!
+        <div class = "footer">
+            Thank you for visiting my website!
+        </div>
     </footer>
 </html>
