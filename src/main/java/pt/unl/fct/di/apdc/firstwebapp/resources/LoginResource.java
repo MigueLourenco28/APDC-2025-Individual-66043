@@ -68,46 +68,21 @@ public class LoginResource {
 	@POST
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response doLogin(LoginData data) {
-		LOG.fine(LOG_MESSAGE_LOGIN_ATTEMP + data.username);
-
-		if (data.username.equals("user") && data.password.equals("password")) {
-			AuthToken at = new AuthToken(data.username);
-			return Response.ok(g.toJson(at)).build();
-		}
-		return Response.status(Status.FORBIDDEN)
-				.entity(MESSAGE_INVALID_CREDENTIALS)
-				.build();
-	}
-
-	@GET
-	@Path("/{username}")
-	public Response checkUsernameAvailable(@PathParam("username") String username) {
-		if (username.trim().equals("user")) {
-			return Response.ok().entity(g.toJson(true)).build();
-		} else {
-			return Response.ok().entity(g.toJson(false)).build();
-		}
-	}
-
-	@POST
-	@Path("/v2")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response doLoginV2(LoginData data,
-							  @Context HttpServletRequest request,
-							  @Context HttpHeaders headers) {
-		LOG.fine(LOG_MESSAGE_LOGIN_ATTEMP + data.username);
+	public Response doLogin(LoginData data,
+							@Context HttpServletRequest request,
+							@Context HttpHeaders headers) {
+		LOG.fine(LOG_MESSAGE_LOGIN_ATTEMP + data.id);
 
-		Key userKey = userKeyFactory.newKey(data.username);
+		Key userKey = userKeyFactory.newKey(data.id);
 		Key ctrsKey = datastore.newKeyFactory()
-				.addAncestors(PathElement.of("User", data.username))
+				.addAncestors(PathElement.of("User", data.id))
 				.setKind("UserStats")
 				.newKey("counters");
 		// Generate automatically a key
 		Key logKey = datastore.allocateId(
 				datastore.newKeyFactory()
-						.addAncestors(PathElement.of("User", data.username))
+						.addAncestors(PathElement.of("User", data.id))
 						.setKind("UserLog").newKey());
 
 		Transaction txn = datastore.newTransaction();
@@ -115,7 +90,7 @@ public class LoginResource {
 			Entity user = txn.get(userKey);
 			if (user == null) {
 				// Username does not exist
-				LOG.warning(LOG_MESSAGE_LOGIN_ATTEMP + data.username);
+				LOG.warning(LOG_MESSAGE_LOGIN_ATTEMP + data.id);
 				return Response.status(Status.FORBIDDEN)
 						.entity(MESSAGE_INVALID_CREDENTIALS)
 						.build();
@@ -163,8 +138,8 @@ public class LoginResource {
 				txn.commit();
 
 				// Return token
-				AuthToken token = new AuthToken(data.username);
-				LOG.info(LOG_MESSAGE_LOGIN_SUCCESSFUL + data.username);
+				AuthToken token = new AuthToken(data.id);
+				LOG.info(LOG_MESSAGE_LOGIN_SUCCESSFUL + data.id);
 				return Response.ok(g.toJson(token)).build();
 			} else {
 				// Incorrect password
@@ -179,7 +154,7 @@ public class LoginResource {
 
 				txn.put(ustats);
 				txn.commit();
-				LOG.warning(LOG_MESSAGE_WRONG_PASSWORD + data.username);
+				LOG.warning(LOG_MESSAGE_WRONG_PASSWORD + data.id);
 				return Response.status(Status.FORBIDDEN).entity(MESSAGE_INVALID_CREDENTIALS).build();
 			}
 		} catch (Exception e) {
@@ -193,13 +168,23 @@ public class LoginResource {
 		}
 	}
 
+	@GET
+	@Path("/{username}")
+	public Response checkUsernameAvailable(@PathParam("username") String username) {
+		if (username.trim().equals("user")) {
+			return Response.ok().entity(g.toJson(true)).build();
+		} else {
+			return Response.ok().entity(g.toJson(false)).build();
+		}
+	}
+
 	@POST
 	@Path("/user")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getLatestLogins(LoginData data) {
 
-		Key userKey = userKeyFactory.newKey(data.username);
+		Key userKey = userKeyFactory.newKey(data.id);
 
 		Entity user = datastore.get(userKey);
 		if (user != null && user.getString(USER_PWD).equals(DigestUtils.sha512Hex(data.password))) {
@@ -214,7 +199,7 @@ public class LoginResource {
 					.setFilter(
 							CompositeFilter.and(
 									PropertyFilter.hasAncestor(
-											datastore.newKeyFactory().setKind("User").newKey(data.username)),
+											datastore.newKeyFactory().setKind("User").newKey(data.id)),
 									PropertyFilter.ge(USER_LOGIN_TIME, yesterday)))
 					.setOrderBy(OrderBy.desc(USER_LOGIN_TIME))
 					.setLimit(3)
@@ -249,7 +234,7 @@ public class LoginResource {
 			return Response.status(Status.BAD_REQUEST).entity(MESSAGE_NEXT_PARAMETER_INVALID).build();
 		}
 
-		Key userKey = userKeyFactory.newKey(data.username);
+		Key userKey = userKeyFactory.newKey(data.id);
 
 		Entity user = datastore.get(userKey);
 		if (user != null && user.getString(USER_PWD).equals(DigestUtils.sha512Hex(data.password))) {
@@ -264,7 +249,7 @@ public class LoginResource {
 					.setFilter(
 							CompositeFilter.and(
 									PropertyFilter.hasAncestor(
-											datastore.newKeyFactory().setKind("User").newKey(data.username)),
+											datastore.newKeyFactory().setKind("User").newKey(data.id)),
 									PropertyFilter.ge(USER_LOGIN_TIME, yesterday)))
 					.setOrderBy(OrderBy.desc(USER_LOGIN_TIME))
 					.setLimit(3)
