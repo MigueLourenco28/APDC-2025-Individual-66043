@@ -41,10 +41,25 @@
                 <tr>
                     <td>or</td>
                 </tr>
+                <!--
                 <tr>
                     <td><a href='rest/login'>Log in</a></td><td>(Insert user info)</td>
                 </tr>
+                -->
             </table>
+
+            <form class="login-form" id="loginForm">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="id" required />
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required />
+
+                <button type="submit">Log in</button>
+            </form>
+
+            <div id="loginError" style="color:red;"></div>
+
         </div>
     </body>
     <footer>
@@ -52,4 +67,6 @@
             Thank you for visiting my website!
         </div>
     </footer>
+
+    <script src="login.js"></script>
 </html>
