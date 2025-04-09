@@ -46,12 +46,20 @@ public class RegisterResource {
             Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.id);
 
             Entity user = Entity.newBuilder(userKey)
-                    .set("user_email", data.email)
                     .set("user_id", data.id)
                     .set("user_full_name", data.full_name)
+                    .set("user_email", data.email)
                     .set("user_phone", data.phone)
                     .set("user_pwd", DigestUtils.sha512Hex(data.password))
                     .set("user_profile", data.profile)
+                    .set("user_cc_bi", data.cc_bi)
+                    .set("user_role", data.role)
+                    .set("user_nif", data.nif)
+                    .set("user_company", data.company)
+                    .set("user_job", data.job)
+                    .set("user_address", data.address)
+                    .set("user_company_nif", data.company_nif)
+                    .set("user_account_state", data.account_state)
                     .set("user_creation_time", Timestamp.now())
                     .build();
 

@@ -6,8 +6,8 @@
 - [ ] Add ListResource;
 - [ ] Add WorksheetResource;
 - Postman only
-  - [ ] Register
-  - [ ] Login
+  - [x] Register
+  - [x] Login
   - [ ] Change Role
   - [ ] Change State
   - [ ] Remove Account
@@ -17,13 +17,13 @@
   - [ ] Log out
   - [ ] Create Worksheet
 - Implement to the html pages
-    - [ ] Register
-    - [ ] Login
-    - [ ] Change Role
-    - [ ] Change State
-    - [ ] Remove Account
-    - [ ] List Users
-    - [ ] Change Attributes
-    - [ ] Change Passwords
-    - [ ] Log out
-    - [ ] Create Worksheet
+  - [x] Register
+  - [x] Login
+  - [ ] Change Role
+  - [ ] Change State
+  - [ ] Remove Account
+  - [ ] List Users
+  - [ ] Change Attributes
+  - [ ] Change Passwords
+  - [ ] Log out
+  - [ ] Create Worksheet
