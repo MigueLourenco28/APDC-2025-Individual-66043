@@ -17,13 +17,13 @@ document.getElementById('registerForm').addEventListener('submit', function (e) 
     let company_nif = document.getElementById('user_company_nif').value;
     let account_state = document.getElementById('user_account_state').value;
 
-    if(cc_bi === null) cc_bi = "";
+    if(cc_bi === null) cc_bi = " ";
     if(role === null) role = "enduser";
-    if(nif === null) nif = "";
-    if(company === null) company = "";
-    if(job === null) job = "";
-    if(address === null) address = "";
-    if(company_nif === null) company_nif = "";
+    if(nif === null) nif = " ";
+    if(company === null) company = " ";
+    if(job === null) job = " ";
+    if(address === null) address = " ";
+    if(company_nif === null) company_nif = " ";
     if(account_state === null) account_state = "inactive";
 
     fetch('/rest/register/', {

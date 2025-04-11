@@ -138,9 +138,20 @@ public class LoginResource {
 				txn.commit();
 
 				// Return token
-				AuthToken token = new AuthToken(data.id);
+				AuthToken authToken = new AuthToken(data.id);
+
+				Key tokenKey = datastore.newKeyFactory().setKind("Token").newKey(authToken.tokenID);
+				Entity token = Entity.newBuilder(tokenKey)
+						.set("token_id", authToken.tokenID)
+						.set("user_name", authToken.username)
+						.set("creation_data", authToken.creationData)
+						.set("expiration_data", authToken.expirationData)
+						.build();
+
+				datastore.add(token);
+
 				LOG.info(LOG_MESSAGE_LOGIN_SUCCESSFUL + data.id);
-				return Response.ok(g.toJson(token)).build();
+				return Response.ok(g.toJson(authToken)).build();
 			} else {
 				// Incorrect password
 				// Copying here is even worse. Propose a better solution!

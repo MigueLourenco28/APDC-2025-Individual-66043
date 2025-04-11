@@ -40,15 +40,8 @@ public class RegisterData {
                 nonEmptyOrBlankField(full_name) &&
                 nonEmptyOrBlankField(phone) &&
                 nonEmptyOrBlankField(password) &&
+                nonEmptyOrBlankField(confirmation) &&
                 nonEmptyOrBlankField(profile) &&
-                nonEmptyOrBlankField(cc_bi) &&
-                nonEmptyOrBlankField(role) &&
-                nonEmptyOrBlankField(nif) &&
-                nonEmptyOrBlankField(company) &&
-                nonEmptyOrBlankField(job) &&
-                nonEmptyOrBlankField(address) &&
-                nonEmptyOrBlankField(company_nif) &&
-                nonEmptyOrBlankField(account_state) &&
                 email.contains("@") &&
                 password.equals(confirmation) &&
                 (profile.equals("private") || profile.equals("public")) &&

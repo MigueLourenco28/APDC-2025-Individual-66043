@@ -1,6 +1,7 @@
 package pt.unl.fct.di.apdc.firstwebapp.resources;
 
 import com.google.cloud.datastore.*;
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -8,6 +9,7 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import pt.unl.fct.di.apdc.firstwebapp.util.LogoutData;
 
 import java.io.IOException;
 
@@ -16,22 +18,22 @@ import java.io.IOException;
 public class LogoutResource {
 
     private static final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
-    private static final KeyFactory tokenKeyFactory = datastore.newKeyFactory().setKind("UserToken");
+    private static final KeyFactory tokenKeyFactory = datastore.newKeyFactory().setKind("Token");
 
     public LogoutResource() {}
 
     @POST
     @Path("/")
-    public Response logout(@Context HttpHeaders headers) {
-        String tokenID = headers.getHeaderString("Authorization");
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response logout(LogoutData data) {
 
-        if (tokenID == null || tokenID.isEmpty()) {
+        if (data.tokenID == null || data.tokenID.isEmpty()) {
             return Response.status(Response.Status.BAD_REQUEST)
-                    .entity("Missing Authorization token.")
+                    .entity("Please provide a valid username.")
                     .build();
         }
 
-        Key tokenKey = tokenKeyFactory.newKey(tokenID);
+        Key tokenKey = tokenKeyFactory.newKey(data.tokenID);
         Entity token = datastore.get(tokenKey);
 
         if (token == null) {
