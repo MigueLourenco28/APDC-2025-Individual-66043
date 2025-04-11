@@ -19,5 +19,24 @@ public class ChangeResource {
         return null;
     }
 
+    @POST
+    @Path("/role")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response changeRole(RegisterData data) {
+        return null;
+    }
 
+    @POST
+    @Path("/attributes")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response changeAttributes(RegisterData data) {
+        return null;
+    }
+
+    @POST
+    @Path("/state")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response changeState(RegisterData data) {
+        return null;
+    }
 }
