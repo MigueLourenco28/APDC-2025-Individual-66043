@@ -12,8 +12,8 @@
   - [x] Change Role
   - [x] Change State
   - [x] Remove Account
-  - [ ] List Users
-  - [ ] Change Attributes
+  - [x] List Users
+  - [x] Change Attributes
   - [x] Change Passwords
   - [x] Log out
   - [x] Create Worksheet
