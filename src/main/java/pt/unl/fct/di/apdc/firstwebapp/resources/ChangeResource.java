@@ -165,21 +165,67 @@ public class ChangeResource {
                     .build();
         }
 
-        boolean enduser = changer.getString("user_role").equals("enduser") && user.getString("user_role").equals("enduser")
-                            && data.id != null && data.email != null && data.full_name != null && data.role != null && data.account_state != null;
-        boolean backoffice = changer.getString("user_role").equals("backoffice") &&
-                                ((user.getString("user_role").equals("admin") && user.getString("user_role").equals("backoffice")) ||
-                                (((user.getString("user_role").equals("enduser") || user.getString("user_role").equals("partner"))) && data.email != null && data.id != null));
+        String changerRole = changer.getString("user_role");
+        String targetRole = user.getString("user_role");
 
-        if(enduser || backoffice) {
-            return Response.status(Response.Status.FORBIDDEN)
-                        .entity("Changer does not have permission to change the user's attributes.")
+        boolean enduser = changerRole.equals("enduser");
+        boolean backoffice = changerRole.equals("backoffice");
+        boolean admin = changerRole.equals("admin");
+
+        // ENDUSER restrictions
+        if(enduser) {
+            if(!data.changer.equals(data.user)) {
+                return Response.status(Response.Status.FORBIDDEN)
+                        .entity("ENDUSER can only modify their own account.")
                         .build();
+            }
+            if(data.new_id != null || data.new_email != null || data.new_full_name != null ||
+                    data.new_role != null || data.new_account_state != null) {
+                return Response.status(Response.Status.FORBIDDEN)
+                        .entity("ENDUSER cannot change username, email, name, role or account state.")
+                        .build();
+            }
         }
 
+        // BACKOFFICE restrictions
+        if(backoffice) {
+            if(!targetRole.equals("enduser") && !targetRole.equals("partner")) {
+                return Response.status(Response.Status.FORBIDDEN)
+                        .entity("BACKOFFICE can only modify ENDUSER or PARTNER accounts.")
+                        .build();
+            }
+            if(!user.getString("user_state").equals("ATIVO")) {
+                return Response.status(Response.Status.FORBIDDEN)
+                        .entity("BACKOFFICE can only modify activated accounts.")
+                        .build();
+            }
+            if(data.new_id != null || data.new_email != null) {
+                return Response.status(Response.Status.FORBIDDEN)
+                        .entity("BACKOFFICE cannot change username or email.")
+                        .build();
+            }
+        }
 
+        Entity.Builder builder = Entity.newBuilder(user);
 
-        return null;
+        if(data.new_password != null) builder.set("user_pwd", org.apache.commons.codec.digest.DigestUtils.sha512Hex(data.new_password));
+        if(data.new_phone != null) builder.set("user_phone", data.new_phone);
+        if(data.new_profile != null) builder.set("user_profile", data.new_profile);
+        if(data.new_job != null) builder.set("user_job", data.new_job);
+        if(data.new_cc_bi != null) builder.set("user_cc_bi", data.new_cc_bi);
+        if(data.new_address != null) builder.set("user_address", data.new_address);
+        if(data.new_nif != null) builder.set("user_nif", data.new_nif);
+        if(data.new_company != null) builder.set("user_company", data.new_company);
+        if(data.new_company_nif != null) builder.set("user_company_nif", data.new_company_nif);
+
+        if(admin && data.new_id != null) builder.set("user_id", data.new_id);
+        if(admin && data.new_email != null) builder.set("user_email", data.new_email);
+        if(admin && data.new_full_name != null) builder.set("user_full_name", data.new_full_name);
+        if(admin && data.new_role != null) builder.set("user_role", data.new_role);
+        if(admin && data.new_account_state != null) builder.set("user_state", data.new_account_state);
+
+        datastore.update(builder.build());
+        return Response.ok("User attributes updated successfully.").build();
     }
 
     @POST
