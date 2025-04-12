@@ -5,7 +5,7 @@
 - [x] Add RemoveResource;
 - [x] Add LogoutResource;
 - [ ] Add ListResource;
-- [ ] Add WorksheetResource;
+- [x] Add WorksheetResource;
 - Postman only
   - [x] Register
   - [x] Login
@@ -16,7 +16,7 @@
   - [ ] Change Attributes
   - [x] Change Passwords
   - [x] Log out
-  - [ ] Create Worksheet
+  - [x] Create Worksheet
 - Implement to the html pages
   - [x] Register
   - [x] Login
