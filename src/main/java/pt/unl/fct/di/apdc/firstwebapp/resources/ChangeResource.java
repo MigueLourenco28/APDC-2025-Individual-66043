@@ -81,13 +81,104 @@ public class ChangeResource {
     @Path("/state")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response changeState(ChangeStateData data) {
-        return null;
+
+        if(data.changer == null || data.user == null || data.old_state == null || data.new_state == null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Please provide a changer, user, old state and new state.")
+                    .build();
+        }
+
+        Key changerKey = userKeyFactory.newKey(data.changer);
+        Entity changer = datastore.get(changerKey);
+
+        if(changer == null) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("Changer not found.")
+                    .build();
+        }
+
+        Key userKey = userKeyFactory.newKey(data.user);
+        Entity user = datastore.get(userKey);
+
+        if(user == null) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("User not found.")
+                    .build();
+        }
+
+        boolean backoffice = data.changer.equals("backoffice") && !((data.old_state.equals("active") && data.new_state.equals("inactive")) ||
+                                                                    (data.old_state.equals("inactive") && data.new_state.equals("active")));
+
+        if(backoffice) {
+            return Response.status(Response.Status.FORBIDDEN)
+                    .entity("Changer does not have permission to change the user's state.")
+                    .build();
+        }
+
+        if(!data.old_state.equals(user.getString("user_state"))) {
+            return Response.status(Response.Status.FORBIDDEN)
+                    .entity("Please enter the correct old state.")
+                    .build();
+        }
+
+        if(data.old_state.equals(data.new_state)) {
+            return Response.status(Response.Status.FORBIDDEN)
+                    .entity("Please enter a different new state.")
+                    .build();
+        }
+
+        Entity updatedUser = Entity.newBuilder(user)
+                .set("user_state", data.new_state)
+                .build();
+
+        datastore.update(updatedUser);
+
+        return Response.ok().entity("State changed successfully.").build();
     }
 
     @POST
     @Path("/attributes")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response changeAttributes(ChangeAttributesData data) {
+
+        if(data.changer == null || data.user == null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Please provide a changer and an user.")
+                    .build();
+        }
+
+        Key changerKey = userKeyFactory.newKey(data.changer);
+        Entity changer = datastore.get(changerKey);
+
+        if(changer == null) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("Changer not found.")
+                    .build();
+        }
+
+        Key userKey = userKeyFactory.newKey(data.user);
+        Entity user = datastore.get(userKey);
+
+        if(user == null) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("User not found.")
+                    .build();
+        }
+
+        boolean enduser = changer.getString("user_role").equals("enduser") && user.getString("user_role").equals("enduser")
+                            && data.id != null && data.email != null && data.full_name != null && data.role != null && data.account_state != null;
+        boolean backoffice = changer.getString("user_role").equals("backoffice") &&
+                                ((user.getString("user_role").equals("admin") && user.getString("user_role").equals("backoffice")) ||
+                                (((user.getString("user_role").equals("enduser") || user.getString("user_role").equals("partner"))) && data.email != null && data.id != null));
+
+        if(enduser || backoffice) {
+            return Response.status(Response.Status.FORBIDDEN)
+                        .entity("Changer does not have permission to change the user's attributes.")
+                        .build();
+        }
+
+
+
         return null;
     }
 

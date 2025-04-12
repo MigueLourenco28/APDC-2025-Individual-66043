@@ -46,6 +46,6 @@ public class RegisterData {
                 password.equals(confirmation) &&
                 (profile.equals("private") || profile.equals("public")) &&
                 (role.equals("enduser") || role.equals("backoffice") || role.equals("admin") || role.equals("partner")) &&
-                (account_state.equals("active") || account_state.equals("inactive"));
+                (account_state.equals("active") || account_state.equals("inactive") || account_state.equals("suspended"));
     }
 }

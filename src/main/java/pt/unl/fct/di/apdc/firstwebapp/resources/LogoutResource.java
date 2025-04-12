@@ -5,8 +5,6 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.Context;
-import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import pt.unl.fct.di.apdc.firstwebapp.util.LogoutData;
@@ -29,7 +27,7 @@ public class LogoutResource {
 
         if (data.tokenID == null || data.tokenID.isEmpty()) {
             return Response.status(Response.Status.BAD_REQUEST)
-                    .entity("Please provide a valid username.")
+                    .entity("Please provide a valid Token ID.")
                     .build();
         }
 

@@ -29,7 +29,6 @@ public class RegisterResource {
 
     private final Gson g = new Gson();
 
-
     public RegisterResource() {}	// Default constructor, nothing to do
 
     @POST
@@ -66,7 +65,7 @@ public class RegisterResource {
             datastore.add(user);
             LOG.info("User registered " + data.id);
 
-            return Response.ok().build();
+            return Response.ok().entity("User registered " + data.id).build();
         }
         catch(DatastoreException e) {
             LOG.log(Level.ALL, e.toString());
