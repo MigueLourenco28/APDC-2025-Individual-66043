@@ -1,20 +1,21 @@
 # APDC-2025-Individual-66043
 ## Código fonte do Projeto Individual, incluindo todo o material usado para pdesenvolver.
 ### TODO:
-- [ ] Add ChangeResource;
-- [ ] Add RemoveResource;
+- [x] Add ChangeResource;
+- [x] Add RemoveResource;
+- [x] Add LogoutResource;
 - [ ] Add ListResource;
 - [ ] Add WorksheetResource;
 - Postman only
   - [x] Register
   - [x] Login
-  - [ ] Change Role
-  - [ ] Change State
-  - [ ] Remove Account
+  - [x] Change Role
+  - [x] Change State
+  - [x] Remove Account
   - [ ] List Users
   - [ ] Change Attributes
-  - [ ] Change Passwords
-  - [ ] Log out
+  - [x] Change Passwords
+  - [x] Log out
   - [ ] Create Worksheet
 - Implement to the html pages
   - [x] Register
