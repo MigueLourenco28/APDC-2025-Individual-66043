@@ -4,7 +4,7 @@
 - [x] Add ChangeResource;
 - [x] Add RemoveResource;
 - [x] Add LogoutResource;
-- [ ] Add ListResource;
+- [x] Add ListResource;
 - [x] Add WorksheetResource;
 - Postman only
   - [x] Register

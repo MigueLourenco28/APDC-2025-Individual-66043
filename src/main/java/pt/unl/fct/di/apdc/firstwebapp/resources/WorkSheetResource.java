@@ -18,6 +18,7 @@ public class WorkSheetResource {
 
     private static final Logger LOG = Logger.getLogger(WorkSheetResource.class.getName());
     private static final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
+    private static final KeyFactory userKeyFactory = datastore.newKeyFactory().setKind("User");
 
     public WorkSheetResource() {}
 
@@ -29,6 +30,14 @@ public class WorkSheetResource {
 
         if(!data.validRegistration())
             return Response.status(Response.Status.BAD_REQUEST).entity("Missing or wrong parameter.").build();
+
+        Key userKey = userKeyFactory.newKey(data.work_entity_account);
+        Entity user = datastore.get(userKey);
+
+        if(user == null || !user.getString("user_role").equals("PARTNER"))
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("User not found or not a PARTNER.")
+                    .build();
 
         try {
             Key workSheetKey = datastore.newKeyFactory().setKind("WorkSheet").newKey(data.work_ref);

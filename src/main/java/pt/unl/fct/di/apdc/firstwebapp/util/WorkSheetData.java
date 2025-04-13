@@ -41,12 +41,12 @@ public class WorkSheetData {
     }
 
     public boolean validRegistration() {
-        if(work_adjudication_state.equals("AJUDICATED"))
+        if (work_adjudication_state.equals("AJUDICATED"))
             return nonEmptyOrBlankField(work_ref) &&
                 nonEmptyOrBlankField(work_description) &&
                 nonEmptyOrBlankField(work_target) &&
                 nonEmptyOrBlankField(work_adjudication_state);
-        else
+        else if(work_adjudication_state.equals("NON ADJUDICATED"))
             return nonEmptyOrBlankField(work_ref) &&
                     nonEmptyOrBlankField(work_description) &&
                     nonEmptyOrBlankField(work_target) &&
@@ -57,6 +57,8 @@ public class WorkSheetData {
                     !nonEmptyOrBlankField(work_adjudication_identity) &&
                     !nonEmptyOrBlankField(work_company_nif) &&
                     !nonEmptyOrBlankField(work_state) &&
-                    !nonEmptyOrBlankField(work_observations);
+                    !nonEmptyOrBlankField(work_observations) &&
+                    (work_state.equals("NOT STARTED") || work_state.equals("ON COURSE") || work_state.equals("COMPLETED"));
+        return false;
     }
 }
