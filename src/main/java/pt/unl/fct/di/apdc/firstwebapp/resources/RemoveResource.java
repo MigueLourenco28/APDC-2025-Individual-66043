@@ -45,8 +45,8 @@ public class RemoveResource {
                     .entity("User not found or already removed.")
                     .build();
 
-        boolean admin = data.deleter_role.equals("admin");
-        boolean backoffice = data.deleter_role.equals("backoffice") && (data.user_role.equals("enduser") || data.user_role.equals("partner"));
+        boolean admin = data.deleter_role.equals("ADMIN");
+        boolean backoffice = data.deleter_role.equals("BACKOFFICE") && (data.user_role.equals("ENDUSER") || data.user_role.equals("PARTNER"));
 
         if(!admin && !backoffice)
             return Response.status(Response.Status.FORBIDDEN)

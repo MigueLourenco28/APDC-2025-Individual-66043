@@ -38,6 +38,14 @@ public class WorkSheetResource {
                     .set("work_description", data.work_description)
                     .set("work_target", data.work_target)
                     .set("work_adjudication_state", data.work_adjudication_state)
+                    .set("work_adjudication_date", data.work_adjudication_date)
+                    .set("work_starting_date", data.work_starting_date)
+                    .set("work_conclusion_date", data.work_conclusion_date)
+                    .set("work_entity_account", data.work_entity_account)
+                    .set("work_adjudication_identity", data.work_adjudication_identity)
+                    .set("work_company_nif", data.work_company_nif)
+                    .set("work_state", data.work_state)
+                    .set("work_observations", data.work_observations)
                     .set("workSheet_creation_time", Timestamp.now())
                     .build();
 

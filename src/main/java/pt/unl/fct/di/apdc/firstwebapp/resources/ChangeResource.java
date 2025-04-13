@@ -46,9 +46,9 @@ public class ChangeResource {
                     .build();
         }
 
-        boolean backoffice = data.changer.equals("backoffice") && !((data.old_role.equals("enduser") && data.new_role.equals("partner")) ||
-                                                                    (data.old_role.equals("partner") && data.new_role.equals("enduser")));
-        boolean enduser = data.changer.equals("enduser");
+        boolean backoffice = data.changer.equals("BACKOFFICE") && !((data.old_role.equals("ENDUSER") && data.new_role.equals("PARTNER")) ||
+                                                                    (data.old_role.equals("PARTNER") && data.new_role.equals("ENDUSER")));
+        boolean enduser = data.changer.equals("ENDUSER");
 
         if(backoffice || enduser) {
             return Response.status(Response.Status.FORBIDDEN)
@@ -106,8 +106,8 @@ public class ChangeResource {
                     .build();
         }
 
-        boolean backoffice = data.changer.equals("backoffice") && !((data.old_state.equals("active") && data.new_state.equals("inactive")) ||
-                                                                    (data.old_state.equals("inactive") && data.new_state.equals("active")));
+        boolean backoffice = data.changer.equals("BACKOFFICE") && !((data.old_state.equals("ACTIVE") && data.new_state.equals("INACTIVE")) ||
+                                                                    (data.old_state.equals("INACTIVE") && data.new_state.equals("ACTIVE")));
 
         if(backoffice) {
             return Response.status(Response.Status.FORBIDDEN)
@@ -168,12 +168,17 @@ public class ChangeResource {
         String changerRole = changer.getString("user_role");
         String targetRole = user.getString("user_role");
 
-        boolean enduser = changerRole.equals("enduser");
-        boolean backoffice = changerRole.equals("backoffice");
-        boolean admin = changerRole.equals("admin");
+        boolean enduser = changerRole.equals("ENDUSER");
+        boolean backoffice = changerRole.equals("BACKOFFICE");
+        boolean admin = changerRole.equals("ADMIN");
 
         // ENDUSER restrictions
         if(enduser) {
+            if(!user.getString("user_state").equals("ACTIVE")) {
+                return Response.status(Response.Status.FORBIDDEN)
+                        .entity("ENDUSER needs to be ACTIVE.")
+                        .build();
+            }
             if(!data.changer.equals(data.user)) {
                 return Response.status(Response.Status.FORBIDDEN)
                         .entity("ENDUSER can only modify their own account.")
@@ -189,12 +194,12 @@ public class ChangeResource {
 
         // BACKOFFICE restrictions
         if(backoffice) {
-            if(!targetRole.equals("enduser") && !targetRole.equals("partner")) {
+            if(!targetRole.equals("ENDUSER") && !targetRole.equals("PARTNER")) {
                 return Response.status(Response.Status.FORBIDDEN)
                         .entity("BACKOFFICE can only modify ENDUSER or PARTNER accounts.")
                         .build();
             }
-            if(!user.getString("user_state").equals("ATIVO")) {
+            if(!user.getString("user_state").equals("ACTIVE")) {
                 return Response.status(Response.Status.FORBIDDEN)
                         .entity("BACKOFFICE can only modify activated accounts.")
                         .build();

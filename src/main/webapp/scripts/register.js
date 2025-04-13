@@ -18,13 +18,13 @@ document.getElementById('registerForm').addEventListener('submit', function (e) 
     let account_state = document.getElementById('user_account_state').value;
 
     if(cc_bi === null) cc_bi = " ";
-    if(role === null) role = "enduser";
+    if(role === null) role = "ENDUSER";
     if(nif === null) nif = " ";
     if(company === null) company = " ";
     if(job === null) job = " ";
     if(address === null) address = " ";
     if(company_nif === null) company_nif = " ";
-    if(account_state === null) account_state = "inactive";
+    if(account_state === null) account_state = "INACTIVE";
 
     fetch('/rest/register/', {
         method: 'POST',

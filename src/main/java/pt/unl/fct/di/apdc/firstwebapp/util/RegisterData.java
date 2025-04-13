@@ -45,7 +45,7 @@ public class RegisterData {
                 email.contains("@") &&
                 password.equals(confirmation) &&
                 (profile.equals("private") || profile.equals("public")) &&
-                (role.equals("enduser") || role.equals("backoffice") || role.equals("admin") || role.equals("partner")) &&
-                (account_state.equals("active") || account_state.equals("inactive") || account_state.equals("suspended"));
+                (role.equals("ENDUSER") || role.equals("BACKOFFICE") || role.equals("ADMIN") || role.equals("PARTNER")) &&
+                (account_state.equals("ACTIVE") || account_state.equals("INACTIVE") || account_state.equals("SUSPENDED"));
     }
 }

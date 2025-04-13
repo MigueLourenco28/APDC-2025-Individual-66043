@@ -38,13 +38,13 @@ public class RegisterResource {
         LOG.fine("Attempt to register user: " + data.id);
 
         if(data.cc_bi == null) data.cc_bi = "";
-        if(data.role == null) data.role = "enduser";
+        if(data.role == null) data.role = "ENDUSER";
         if(data.nif == null) data.nif = "";
         if(data.company == null) data.company = "";
         if(data.job == null) data.job = "";
         if(data.address == null) data.address = "";
         if(data.company_nif == null) data.company_nif = "";
-        if(data.account_state == null) data.account_state = "inactive";
+        if(data.account_state == null) data.account_state = "INACTIVE";
 
 
         if(!data.validRegistration())

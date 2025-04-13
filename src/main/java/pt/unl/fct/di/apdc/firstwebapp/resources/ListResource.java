@@ -51,18 +51,18 @@ public class ListResource {
             String targetRole = user.getString("user_role");
 
             switch (listerRole) {
-                case "enduser" -> {
-                    if (!targetRole.equals("enduser")) continue;
+                case "ENDUSER" -> {
+                    if (!targetRole.equals("ENDUSER")) continue;
                     if (!user.getString("user_profile").equals("public")) continue;
-                    if (!user.getString("user_state").equals("active")) continue;
+                    if (!user.getString("user_state").equals("ACTIVE")) continue;
 
                     usersList.add(buildFilteredUser(user, List.of("username", "email", "name")));
                 }
-                case "backoffice" -> {
-                    if (!targetRole.equals("enduser")) continue;
+                case "BACKOFFICE" -> {
+                    if (!targetRole.equals("ENDUSER")) continue;
                     usersList.add(buildFilteredUser(user, user.getNames()));
                 }
-                case "admin" -> usersList.add(buildFilteredUser(user, user.getNames()));
+                case "ADMIN" -> usersList.add(buildFilteredUser(user, user.getNames()));
             }
         }
 
