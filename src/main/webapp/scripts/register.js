@@ -1,12 +1,12 @@
 document.getElementById('registerForm').addEventListener('submit', function (e) {
     e.preventDefault();
 
-    const id = document.getElementById('username').value;
+    const id = document.getElementById('user_id').value;
     const full_name = document.getElementById('user_full_name').value;
     const email = document.getElementById('user_email').value;
     const phone = document.getElementById('user_phone').value;
     const profile = document.getElementById('user_profile').value;
-    const password = document.getElementById('password').value;
+    const password = document.getElementById('user_pwd').value;
     const confirmation = document.getElementById('confirmation').value;
     let cc_bi = document.getElementById('user_cc_bi').value;
     let role = document.getElementById('user_role').value;
