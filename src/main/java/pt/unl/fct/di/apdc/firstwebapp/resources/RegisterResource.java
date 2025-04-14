@@ -75,7 +75,9 @@ public class RegisterResource {
             datastore.add(user);
             LOG.info("User registered " + data.id);
 
-            return Response.ok().entity("User registered " + data.id).build();
+            return Response.ok().entity("{\"message\":\"User registered successfully.\"}")
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
         }
         catch(DatastoreException e) {
             LOG.log(Level.ALL, e.toString());
